@@ -20,8 +20,29 @@ transcription-tool/
 
 ## Setup
 
-### Configuring your s3 bucket policy
+You will need the following to use this project
+- AWS S3 Bucket
+- AWS IAM User
 
+### Configuring your IAM User Permissions
+Assign permissions policies.
+- `AmazonS3FullAccess`
+- `AmazonTranscribeFullAccess`
+
+### Configuring your IAM User Authentication
+To allow your application to use the specified IAM user for accessing the S3 bucket, you need to configure the AWS SDK (e.g., Boto3 for Python) with the IAM user's credentials. Here are the steps to achieve this:
+
+1. Create Access Keys for the IAM User:
+- Go to the IAM service in the AWS Management Console.
+- Select the IAM user transcript-tool-user.
+- Go to the "Security credentials" tab.
+- Click "Create access key" to generate a new access key and secret access key. Make sure to store these keys securely.
+
+2. Configure AWS SDK with IAM User Credentials:
+- You can configure the AWS SDK to use the IAM user's credentials in several ways, such as using environment variables, AWS credentials file, or directly in your code.
+
+### Configuring your s3 bucket policy
+Example bucket policy for uploading and downloading your audio and transcripts.
 ```
 {
     "Version": "2012-10-17",
@@ -39,4 +60,22 @@ transcription-tool/
         }
     ]
 }
+```
+
+### Project Setup
+1. create a folder called `input` in the top level of the project.
+2. create a folder called `output` in the top level of the project.
+
+### Environment Setup
+1. Install the requirements.
+```bash
+pip install -r requirements.txt
+```
+2. Set your environment variables. Use `.env.template` to see what values you will need.
+
+### Running the project
+1. Add your audio files in to the `input` folder.
+2 Run the script.
+```bash
+python main.py
 ```
