@@ -51,3 +51,7 @@ class TranscriptionTool:
             job_name = result_url.split('/')[-1]
             output_file_path = f"{self.output_folder}/{job_name}"
             self.s3_manager.download_file(job_name, output_file_path)
+
+            # Cleanup
+            self.s3_manager.delete_file(file_name)
+            self.s3_manager.delete_file(job_name)

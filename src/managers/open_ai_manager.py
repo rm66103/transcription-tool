@@ -78,3 +78,6 @@ class OpenAiManager():
             thread_id=self.thread_id
         )
         return response.data[0].content[0].text.value
+
+    def delete_file(self, file_id):
+        self.open_ai.files.delete(file_id=file_id)

@@ -90,6 +90,9 @@ python transcribe.py --speaker_count=5
 
 # Format the transcripts
 python format.py
+
+# Clear your input and output folders
+bash clear_folders.sh
 ```
 
 ## To Do
