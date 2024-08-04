@@ -27,6 +27,7 @@ You will need the following to use this project
 - AWS S3 Bucket
 - AWS IAM User
 - Open AI API Key
+- Open AI Assistant
 
 ### Configuring your IAM User Permissions
 Assign permissions policies.
@@ -66,6 +67,45 @@ Example bucket policy for uploading and downloading your audio and transcripts.
 }
 ```
 
+### Configuring your Open AI Assistant
+I used the OpenAI playground to generate the assistant.
+
+You will need to give a set of instructions to your assistant.
+
+Here are the instructions I use (20240804)
+
+```
+Context: I have a transcript of a conversation and I need a comprehensive analysis to extract key insights.
+
+Instructions:
+
+1. Events:
+   - Identify any events discussed in the conversation.
+   - For each event, provide details on:
+     - What is happening?
+     - When and where is the event happening?
+     - Who else will be there?
+     - Any other helpful details for attendees of the event.
+
+2. Speaker Information:
+   - For each speaker in the conversation, gather the following information:
+     - Likes or dislikes
+     - Where they are from
+     - What they do for work
+     - Who they are dating
+     - Any goals they have
+     - Things they are working on
+     - Personality traits or values revealed in the conversation
+     - life stories
+     - Other random details or information
+   - Use the transcript to paint a detailed picture of each speaker.
+
+3. Conversation Summary:
+   - Provide a brief summary of the entire conversation.
+
+If there is not enough context for a specific insight, then do not guess. Simply omit it. Do not infer anything. Only generate insights based on what is being said.
+```
+
 ### Project Setup
 1. create a folder called `input` in the top level of the project.
 2. create a folder called `output` in the top level of the project.
@@ -91,10 +131,12 @@ python transcribe.py --speaker_count=5
 # Format the transcripts
 python format.py
 
+# Get insights from formatted transcripts
+python insights.py
+
 # Clear your input and output folders
 bash clear_folders.sh
 ```
 
 ## To Do
-- [ ] Cleanup AWS s3 buckets, AWS transcribe jobs, and OpenAI API Threads after use.
-- [ ] Add script to summarize and gain insights from transcripts.
+- [ ] Customize insights based on transcript type (conversation, sermon, podcast)
