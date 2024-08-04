@@ -1,5 +1,8 @@
 # transcription-tool
 Automating transcriptions for PKM/RAG
+- Generate transcripts from audio files
+- Generate well formatted transcripts for PKM/RAG
+- Generate insights from transcripts for PKM/RAG 
 
 ## Directory Structure
 ```
@@ -7,15 +10,15 @@ transcription-tool/
 │
 ├── input/                # Folder for input files
 ├── output/               # Folder for output files
-├── transcription_tool/   # Main package
-│   ├── __init__.py
-│   ├── s3_manager.py
-│   ├── transcribe_manager.py
-│   ├── file_manager.py
-│   └── transcription_tool.py
+│   ├── raw_transcripts/
+│   ├── formatted_transcripts/
+│   ├── transcript_notes/
+├── src 
+│   ├── ...               # Code
 ├── .env                  # Environment variables
 ├── requirements.txt      # Dependencies
-└── main.py               # Entry point to kick off the script
+├── transcribe.py         # Create transcripts from input/
+└── format.py             # Format transcripts in raw_transcripts/
 ```
 
 ## Setup
@@ -23,6 +26,7 @@ transcription-tool/
 You will need the following to use this project
 - AWS S3 Bucket
 - AWS IAM User
+- Open AI API Key
 
 ### Configuring your IAM User Permissions
 Assign permissions policies.
@@ -65,6 +69,7 @@ Example bucket policy for uploading and downloading your audio and transcripts.
 ### Project Setup
 1. create a folder called `input` in the top level of the project.
 2. create a folder called `output` in the top level of the project.
+3. create the foldeers `raw_transcripts`, `formatted_transcripts`, and `transcript_notes` in the `output` forlder
 
 ### Environment Setup
 1. Install the requirements.
@@ -77,5 +82,16 @@ pip install -r requirements.txt
 1. Add your audio files in to the `input` folder.
 2 Run the script.
 ```bash
-python main.py
+# Create transcriptions
+python transcribe.py
+
+# Create transcriptions with multiple speakers
+python transcribe.py --speaker_count=5
+
+# Format the transcripts
+python format.py
 ```
+
+## To Do
+- [ ] Cleanup AWS s3 buckets, AWS transcribe jobs, and OpenAI API Threads after use.
+- [ ] Add script to summarize and gain insights from transcripts.

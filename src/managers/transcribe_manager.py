@@ -8,13 +8,20 @@ class TranscribeManager:
             aws_secret_access_key=aws_secret_access_key
         )
 
-    def start_transcription(self, job_name, file_uri, output_bucket):
+    def start_transcription(self, job_name, file_uri, output_bucket, speaker_count):
+        settings = {}
+
+        if speaker_count > 1:
+            settings['ShowSpeakerLabels'] = True
+            settings['MaxSpeakerLabels'] = speaker_count
+
         try:
             response = self.transcribe.start_transcription_job(
                 TranscriptionJobName=job_name,
                 Media={'MediaFileUri': file_uri},
                 OutputBucketName=output_bucket,
-                LanguageCode='en-US'
+                LanguageCode='en-US',
+                Settings=settings
             )
             return response
         except self.transcribe.exceptions.ConflictException as e:

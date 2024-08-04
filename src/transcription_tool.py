@@ -1,10 +1,11 @@
 import os
 import time
 
-from .s3_manager import S3Manager
-from .transcribe_manager import TranscribeManager
-from .file_manager import FileManager
-from .config import IAM_USER_ACCESS_KEY, IAM_USER_SECRET_ACCESS_KEY
+from .configs.transcription_config import IAM_USER_ACCESS_KEY, IAM_USER_SECRET_ACCESS_KEY
+
+from .managers.s3_manager import S3Manager
+from .managers.transcribe_manager import TranscribeManager
+from .managers.file_manager import FileManager
 
 class TranscriptionTool:
     def __init__(self, input_folder, output_folder, s3_bucket):
@@ -20,7 +21,7 @@ class TranscriptionTool:
             IAM_USER_SECRET_ACCESS_KEY
         )
 
-    def process_files(self):
+    def process_files(self, speaker_count):
         input_files = self.file_manager.get_input_files()
         for file_path in input_files:
 
@@ -30,7 +31,8 @@ class TranscriptionTool:
             self.transcribe_manager.start_transcription(
                 file_name, 
                 f's3://{self.s3_manager.bucket_name}/{file_name}',
-                self.s3_manager.bucket_name
+                self.s3_manager.bucket_name,
+                speaker_count
             )
             
             # Check transcription status
@@ -42,7 +44,7 @@ class TranscriptionTool:
                 elif status == 'FAILED':
                     print(f"Transcription failed for {file_name}")
                     return
-                time.sleep(3)  # Wait before checking again
+                time.sleep(5)  # Wait before checking again
 
             # Download the transcription result
             result_url = self.transcribe_manager.get_transcription_result(file_name)

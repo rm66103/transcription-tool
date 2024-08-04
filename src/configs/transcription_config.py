@@ -11,4 +11,4 @@ IAM_USER_SECRET_ACCESS_KEY = os.getenv('IAM_USER_SECRET_ACCESS_KEY')
 
 ## Project Settings
 INPUT_FOLDER = 'input'
-OUTPUT_FOLDER = 'output'
+OUTPUT_FOLDER = 'output/raw_transcripts'
