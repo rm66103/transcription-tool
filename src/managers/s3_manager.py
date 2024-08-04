@@ -25,3 +25,10 @@ class S3Manager:
         except ClientError as e:
             print(f"Failed to download {object_name} from {self.bucket_name}: {e}")
             raise
+
+    def delete_file(self, object_name):
+        self.s3.delete_object(
+            Bucket=self.bucket_name,
+            Key=object_name
+        )
+        
