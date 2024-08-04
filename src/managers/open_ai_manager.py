@@ -27,9 +27,9 @@ class OpenAiManager():
         )
         self.thread_id = thread.id
 
-    def create_message(self):
+    def create_message(self, message):
         self.open_ai.beta.threads.messages.create(
-            content="format the transcript.",
+            content=message,
             thread_id=self.thread_id,
             role="user",
             attachments=[{"file_id": self.file_id, "tools": [{"type": "file_search"}]}]
